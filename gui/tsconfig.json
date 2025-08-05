@@ -16,7 +16,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noEmitOnError": false,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "paths": {
+      "posthog-js": ["./src/stubs/posthog-js"],
+      "posthog-js/react": ["./src/stubs/posthog-react"]
+    }
     // Disabled for now since it's causing too many errors
   },
   "include": ["src", "../src/util/messenger.ts"],

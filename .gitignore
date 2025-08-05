@@ -170,4 +170,5 @@ extensions/.continue-debug/
 
 .continuerules
 **/.continue/assistants/
-keys
+!/.continue/assistants/
+!/.continue/assistants/**

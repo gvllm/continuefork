@@ -4,13 +4,28 @@ This fork removes all network calls to `continue.dev` and PostHog so the VS Code
 
 ## Building
 
-1. From the repository root run:
+Before running the build, you need to install dependencies for `core` and the packages under `packages/` and `gui`:
+
+```bash
+cd core && npm install
+cd ../packages/config-types && npm install
+cd ../config-yaml && npm install
+cd ../fetch && npm install
+cd ../openai-adapters && npm install
+cd ../llm-info && npm install
+cd ../../gui && npm install
+cd ..  # return to repository root
+```
+
+Once the dependencies are installed, run:
 
 ```bash
 npm run build-offline
 ```
 
-This command first runs `npm run prebuild-offline` to install dependencies for each package and the GUI, then builds the React GUI and packages the VS Code extension into `extensions/vscode/build/continue-<version>.vsix`. Run this step while online so all dependencies can be downloaded; after that, it can be re-run offline.
+This command installs root dependencies, builds the React GUI, and packages the VS Code extension into `extensions/vscode/build/continue-<version>.vsix`.
+
+Using `npm install --prefix` on Windows is unsafe and should be avoided due to an npm bug.
 
 ## Installing
 

@@ -7,8 +7,8 @@
     "tsc:watch:binary": "tsc --project binary/tsconfig.json --watch --noEmit --pretty",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\" --ignore-path .gitignore",
-    "prebuild-offline": "npm install && npm install --prefix packages/config-types && npm install --prefix packages/config-yaml && npm install --prefix packages/fetch && npm install --prefix packages/openai-adapters && npm install --prefix packages/llm-info && npm install --prefix gui",
-    "build-offline": "npm run prebuild-offline && npm --prefix extensions/vscode run build-offline"
+    "prebuild-offline": "cd core && npm install && cd .. && cd packages/config-types && npm install && cd ../config-yaml && npm install && cd ../fetch && npm install && cd ../openai-adapters && npm install && cd ../llm-info && npm install && cd ../../gui && npm install && cd ..",
+    "build-offline": "npm install && npm run prebuild-offline && cd extensions/vscode && npm install && npm run build-offline && cd .."
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^7.8.0",

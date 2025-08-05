@@ -1,0 +1,13 @@
+name: Local Claude 4
+version: 1.0.0
+schema: v1
+
+models:
+  - uses: local/claude-4-sonnet
+
+context:
+  - provider: code
+  - provider: diff
+
+rules:
+  - Keep explanations concise

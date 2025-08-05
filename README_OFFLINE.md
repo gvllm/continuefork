@@ -10,7 +10,7 @@ This fork removes all network calls to `continue.dev` and PostHog so the VS Code
 npm run build-offline
 ```
 
-This installs dependencies, builds the React GUI, and packages the VS Code extension into `extensions/vscode/build/continue-<version>.vsix`.
+This command first runs `npm run prebuild-offline` to install dependencies for each package and the GUI, then builds the React GUI and packages the VS Code extension into `extensions/vscode/build/continue-<version>.vsix`. Run this step while online so all dependencies can be downloaded; after that, it can be re-run offline.
 
 ## Installing
 

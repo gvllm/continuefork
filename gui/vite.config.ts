@@ -6,6 +6,15 @@ import { defineConfig } from "vitest/config";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: [
+      {
+        find: "posthog-js/react",
+        replacement: resolve(__dirname, "src/stubs/posthog-react"),
+      },
+      { find: "posthog-js", replacement: resolve(__dirname, "src/stubs/posthog-js") },
+    ],
+  },
   build: {
     // Change the output .js filename to not include a hash
     rollupOptions: {

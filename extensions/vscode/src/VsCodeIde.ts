@@ -245,7 +245,7 @@ class VsCodeIde implements IDE {
     const continueEnabled: boolean =
       (await vscode.workspace
         .getConfiguration(EXTENSION_NAME)
-        .get("telemetryEnabled")) ?? true;
+        .get("telemetryEnabled")) ?? false;
     return globalEnabled && continueEnabled;
   }
 
@@ -657,12 +657,10 @@ class VsCodeIde implements IDE {
     );
     const ideSettings: IdeSettings = {
       remoteConfigServerUrl,
-      remoteConfigSyncPeriod: settings.get<number>(
-        "remoteConfigSyncPeriod",
-        60,
-      ),
+      remoteConfigSyncPeriod:
+        settings.get<number | null>("remoteConfigSyncPeriod", null) ?? 60,
       userToken: settings.get<string>("userToken", ""),
-      continueTestEnvironment: "production",
+      continueTestEnvironment: "none",
       pauseCodebaseIndexOnStart: settings.get<boolean>(
         "pauseCodebaseIndexOnStart",
         false,

@@ -16,9 +16,10 @@ export class RegistryClient implements Registry {
 
   constructor(options: RegistryClientOptions = {}) {
     this.accessToken = options.accessToken;
-    this.apiBase = options.apiBase ?? "https://api.continue.dev/";
+    const base = options.apiBase ?? "";
+    this.apiBase = base.includes("continue.dev") ? "" : base;
     this.rootPath = options.rootPath;
-    if (!this.apiBase.endsWith("/")) {
+    if (this.apiBase && !this.apiBase.endsWith("/")) {
       this.apiBase += "/";
     }
   }
@@ -51,17 +52,8 @@ export class RegistryClient implements Registry {
   }
 
   private async getContentFromSlug(fullSlug: FullSlug): Promise<string> {
-    const response = await fetch(
-      `${this.apiBase}registry/v1/${fullSlug.ownerSlug}/${fullSlug.packageSlug}/${fullSlug.versionSlug}`,
-      {
-        headers: {
-          ...(this.accessToken
-            ? { Authorization: `Bearer ${this.accessToken}` }
-            : {}),
-        },
-      },
+    throw new Error(
+      "Hub imports are unsupported in this offline build. Remove uses: references to remote packages.",
     );
-    const data = await response.json();
-    return data.content;
   }
 }

@@ -84,6 +84,9 @@ export class ControlPlaneClient {
     }
 
     const env = await getControlPlaneEnv(this.ideSettingsPromise);
+    if (!env.CONTROL_PLANE_URL) {
+      throw new Error("Continue Hub is not available in offline mode.");
+    }
     const url = new URL(path, env.CONTROL_PLANE_URL).toString();
     const ideInfo = await this.ideInfoPromise;
 

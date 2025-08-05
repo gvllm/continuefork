@@ -88,7 +88,7 @@
       "properties": {
         "continue.telemetryEnabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "markdownDescription": "Continue collects anonymous usage data, cleaned of PII, to help us improve the product for our users. Read more  at [continue.dev › Telemetry](https://docs.continue.dev/telemetry)."
         },
         "continue.showInlineTip": {
@@ -138,7 +138,7 @@
         },
         "continue.remoteConfigSyncPeriod": {
           "type": "number",
-          "default": 60,
+          "default": null,
           "description": "The period of time in minutes between automatic syncs."
         }
       }
@@ -679,6 +679,7 @@
     "test": "vitest run",
     "vitest": "vitest run",
     "write-build-timestamp": "node scripts/write-build-timestamp.js",
+    "build-offline": "npm --prefix ../../packages/config-types run build && npm --prefix ../../packages/config-yaml run build && npm --prefix ../../packages/fetch run build && npm --prefix ../../packages/openai-adapters run build && npm --prefix ../../packages/llm-info run build && npm --prefix ../../gui run build && npm run package",
     "prepackage": "node scripts/prepackage.js",
     "package": "node scripts/package.js",
     "package-all": "node scripts/package-all.js",
@@ -769,7 +770,6 @@
     "ncp": "^2.0.0",
     "node-fetch": "^3.3.2",
     "node-machine-id": "^1.1.12",
-    "posthog-node": "^3.6.3",
     "react-markdown": "^8.0.7",
     "react-redux": "^8.0.5",
     "read-last-lines": "^1.8.0",

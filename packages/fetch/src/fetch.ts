@@ -89,6 +89,11 @@ export async function fetchwithRequestOptions(
     url.host = "127.0.0.1";
   }
 
+  const forbiddenHosts = ["continue.dev", "posthog.com"];
+  if (forbiddenHosts.some((h) => url.hostname.endsWith(h))) {
+    throw new Error(`Network requests to ${url.hostname} are disabled in offline mode.`);
+  }
+
   const agentOptions = await getAgentOptions(requestOptions);
 
   // Get proxy from options or environment variables

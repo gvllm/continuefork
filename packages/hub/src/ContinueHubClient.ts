@@ -20,11 +20,18 @@ export class ContinueHubClient implements IContinueHubClient {
 
   constructor(options: ContinueHubClientOptions) {
     this.apiKey = options.apiKey;
-    this.apiBase = options.apiBase ?? "https://api.continue.dev";
+    const base = options.apiBase ?? "";
+    this.apiBase = base.includes("continue.dev") ? "" : base;
     this.fetchOptions = options.fetchOptions;
   }
 
   private async request(path: string, init: RequestInit): Promise<Response> {
+    if (!this.apiBase) {
+      throw new Error(
+        "Continue Hub is not available in offline mode. Hub imports are unsupported.",
+      );
+    }
+
     const url = new URL(path, this.apiBase).toString();
 
     const finalInit: RequestInit = {

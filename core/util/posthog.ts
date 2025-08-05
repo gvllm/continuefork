@@ -3,7 +3,12 @@ import os from "node:os";
 import { TeamAnalytics } from "../control-plane/TeamAnalytics.js";
 import { IdeInfo } from "../index.js";
 
-import type { PostHog as PostHogType } from "posthog-node";
+// Minimal PostHog interface for no-op telemetry
+interface PostHogLike {
+  capture(payload: any): void;
+  shutdown(): void;
+  getFeatureFlag?(flag: string, distinctId: string): any;
+}
 import { extractMinimalStackTraceInfo } from "./extractMinimalStackTraceInfo.js";
 
 export enum PosthogFeatureFlag {
@@ -33,7 +38,7 @@ export const EXPERIMENTS: {
 
 export class Telemetry {
   // Set to undefined whenever telemetry is disabled
-  static client: PostHogType | undefined = undefined;
+  static client: PostHogLike | undefined = undefined;
   static uniqueId = "NOT_UNIQUE";
   static os: string | undefined = undefined;
   static ideInfo: IdeInfo | undefined = undefined;
@@ -102,15 +107,13 @@ export class Telemetry {
     Telemetry.client?.shutdown();
   }
 
-  static async getTelemetryClient(): Promise<PostHogType | undefined> {
-    try {
-      const { PostHog } = await import("posthog-node");
-      return new PostHog("phc_JS6XFROuNbhJtVCEdTSYk6gl5ArRrTNMpCcguAXlSPs", {
-        host: "https://app.posthog.com",
-      });
-    } catch (e) {
-      console.error(`Failed to setup telemetry: ${e}`);
-    }
+  static async getTelemetryClient(): Promise<PostHogLike | undefined> {
+    // Return a no-op client to satisfy interface
+    return {
+      capture: () => {},
+      shutdown: () => {},
+      getFeatureFlag: () => undefined,
+    };
   }
 
   static async setup(allow: boolean, uniqueId: string, ideInfo: IdeInfo) {
@@ -128,7 +131,9 @@ export class Telemetry {
   private static featureValueCache: Record<string, any> = {};
 
   static async getFeatureFlag(flag: PosthogFeatureFlag) {
-    const value = Telemetry.client?.getFeatureFlag(flag, Telemetry.uniqueId);
+    const value = Telemetry.client?.getFeatureFlag
+      ? Telemetry.client.getFeatureFlag(flag, Telemetry.uniqueId)
+      : undefined;
 
     Telemetry.featureValueCache[flag] = value;
     return value;

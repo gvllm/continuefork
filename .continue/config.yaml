@@ -1,8 +1,22 @@
-# Overrides default config so the extension uses only the local assistant.
-name: my-local-setup
-version: 1.0.0
+name: Local Claude 4 Assistant
+version: "1" # must be a string
 schema: v1
 
-assistants:
-  - uses: './assistants/Local Claude 4.yaml'
+models:
+  - name: Claude 4 Sonnet
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+    apiKey: ${ANTHROPIC_API_KEY}
+    roles: [chat, edit, apply, autocomplete]
+    defaultCompletionOptions:
+      temperature: 1
+      reasoning: true
 
+context:
+  - provider: code
+  - provider: docs
+  - provider: diff
+  - provider: terminal
+  - provider: problems
+  - provider: folder
+  - provider: codebase

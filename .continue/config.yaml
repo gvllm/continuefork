@@ -1,0 +1,8 @@
+# Overrides default config so the extension uses only the local assistant.
+name: my-local-setup
+version: 1.0.0
+schema: v1
+
+assistants:
+  - uses: './assistants/Local Claude 4.yaml'
+

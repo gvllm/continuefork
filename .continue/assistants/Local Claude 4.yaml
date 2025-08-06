@@ -3,7 +3,7 @@ version: 1.0.0
 schema: v1
 
 models:
-  - uses: local/claude-4-sonnet
+  - uses: gvllm/claude-4-sonnet  # owner/block slug avoids hub fetch
 
 context:
   - provider: code
